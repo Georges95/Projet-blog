@@ -30,6 +30,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/DashboardView.vue'),
+      meta:{
+        title: 'Votre Dashboard',
+      }
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
