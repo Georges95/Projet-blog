@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 export const useUserStore = defineStore({
     id: 'user',
 
-    state: ()=>({
+    state: () => ({
         loggedIn: localStorage.getItem('token') ? true : false,
         user: localStorage.getItem('user') ?? null,
         token: localStorage.getItem('token') ?? false,
@@ -47,7 +47,7 @@ export const useUserStore = defineStore({
             .catch (error => {
                 console.log(error);
                 if(error.response.status == 422){
-                    for(const key in errors.response.data.errors){
+                    for(const key in error.response.data.errors){
                         this.errors.push(error.response.data.errors[key][0]+ ' ');
                     }
                     console.log(this.errors);
@@ -79,7 +79,7 @@ export const useUserStore = defineStore({
                 console.log(error);
                
                     if(error.response.status == 422){
-                        for(const key in errors.response.data.errors){
+                        for(const key in error.response.data.errors){
                             this.errors.push(error.response.data.errors[key][0]+ ' ');
                         }
                         console.log(this.errors);
@@ -93,7 +93,7 @@ export const useUserStore = defineStore({
 
         async logout(){
             await this.csrf();
-            await axios.post('/logout'+this.getUser.id).then((response)=>{
+            await axios.post('/logout/'+this.getUser.id).then((response)=>{
                 console.log(response);
                 if(response.status == 200){
                     this.token = null;

@@ -7,7 +7,7 @@ const user = useUserStore();
 <template>
     <div>
         <h1>
-            {{ user.getUser.name }}
+            {{ user.getUser.email }}
         </h1>
 </div>
     

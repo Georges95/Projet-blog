@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useUserStore } from '../stores/user'
 
 
 const router = createRouter({
@@ -19,6 +20,7 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue'),
       meta:{
         title: 'Inscription',
+        requiresGuest: true,
       },
     },
     {
@@ -27,6 +29,7 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue'),
       meta:{
         title: 'Connexion',
+        requiresGuest: true,
       }
     },
     {
@@ -35,6 +38,7 @@ const router = createRouter({
       component: () => import('../views/DashboardView.vue'),
       meta:{
         title: 'Votre Dashboard',
+        requiresAuth: true,
       }
     },
     {
@@ -52,6 +56,26 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
 
     next()
+})
+
+router.beforeEach((to, from, next) => {
+  const user = useUserStore();
+  if (to.meta.requiresGuest && user.loggedIn) {
+    next({name: 'dashboard'})
+  }
+  else {
+    next()
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  const user = useUserStore();
+  if (to.meta.requiresAuth && !user.loggedIn) {
+    next({name: 'login'})
+  }
+  else {
+    next()
+  }
 })
 
 export default router

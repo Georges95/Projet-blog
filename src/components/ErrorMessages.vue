@@ -5,7 +5,9 @@ defineProps([errors])
 
 <template>
     <div class="alert alert-danger" role="alert">
-        <p v-for="error in errors">
+        <p v-for="error in errors" 
+        :key="error.id"
+        >
             {{ error }}
         </p>
     </div>
